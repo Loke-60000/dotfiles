@@ -1,12 +1,13 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-if [ -d ~/.local/IBM-ASCII-Logo-For-SSH ] && [ -f ~/.local/IBM-ASCII-Logo-For-SSH/ibm.sh ]; then
-    source ~/.local/IBM-ASCII-Logo-For-SSH/ibm.sh
-fi
+#if [ -d ~/.local/IBM-ASCII-Logo-For-SSH ] && [ -f ~/.local/IBM-ASCII-Logo-For-SSH/ibm.sh ]; then
+#    source ~/.local/IBM-ASCII-Logo-For-SSH/ibm.sh
+#fi
 
 export LANG=en_US.UTF-8
 export PATH=/usr/bin:$PATH
+export PATH="$PATH:/root/.local/share/gem/ruby/3.0.0/bin"
 
 # Set aliases for common commands
 alias ani-cli="sudo ani-cli"
@@ -29,6 +30,10 @@ alias gp="git pull"
 alias gf="git fetch"
 alias gfa="git fetch --all"
 alias tiga="tig --all"
+
+#mongoDb
+
+alias mongoshlokman="mongosh "mongodb://localhost:27017/?authSource=admin" --username lokman --password"
 
 #  custom colors for the prompt
 WHITE="\[\e[97m\]"
