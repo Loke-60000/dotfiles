@@ -1,10 +1,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-#if [ -d ~/.local/IBM-ASCII-Logo-For-SSH ] && [ -f ~/.local/IBM-ASCII-Logo-For-SSH/ibm.sh ]; then
-#    source ~/.local/IBM-ASCII-Logo-For-SSH/ibm.sh
-#fi
-
 export LANG=en_US.UTF-8
 export PATH=/usr/bin:$PATH
 export PATH="$PATH:/root/.local/share/gem/ruby/3.0.0/bin"
@@ -43,14 +39,12 @@ alias conda-remove='function _conda_remove(){ conda remove --name $1 --all; };_c
 alias conda-create="conda create -n myenv python=\$(conda search python --json | grep '\"version\":' | tail -1 | awk '{print \$2}' | tr -d '\"' | tr -d ',')"
 alias conda-jupyter="conda install -c conda-forge jupyterlab"
 
-#  custom colors for the prompt
 WHITE="\[\e[97m\]"
 RED="\[\e[91m\]"
 GREEN="\[\e[92m\]"
 BLUE="\[\e[94m\]"
 RESET="\[\e[0m\]"
 
-# Prompt with colors and the IBM logo
 PS1="${WHITE}\u${RESET}@${RED}I${GREEN}B${BLUE}M${RESET}-${WHITE}T480${RESET}:${BLUE}\w${RESET}\\$ "
 
 # >>> conda initialize >>>
