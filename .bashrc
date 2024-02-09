@@ -33,7 +33,15 @@ alias tiga="tig --all"
 
 #mongoDb
 
+alias mongostart="sudo systemctl start mongodb.service"
 alias mongoshlokman="mongosh "mongodb://localhost:27017/?authSource=admin" --username lokman --password"
+
+#Conda
+
+alias conda-new='function _conda_new(){ conda create --name $1 python=$2; };_conda_new'
+alias conda-remove='function _conda_remove(){ conda remove --name $1 --all; };_conda_remove'
+alias conda-create="conda create -n myenv python=\$(conda search python --json | grep '\"version\":' | tail -1 | awk '{print \$2}' | tr -d '\"' | tr -d ',')"
+alias conda-jupyter="conda install -c conda-forge jupyterlab"
 
 #  custom colors for the prompt
 WHITE="\[\e[97m\]"
