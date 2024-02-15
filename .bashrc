@@ -52,6 +52,7 @@ alias hp='filter_python_history'
 #mongoDb
 
 alias mongostart="sudo systemctl start mongodb.service"
+alias mongostop="sudo systemctl stop mongodb.service"
 alias mongoshlokman="mongosh "mongodb://localhost:27017/?authSource=admin" --username lokman --password"
 
 #Conda
