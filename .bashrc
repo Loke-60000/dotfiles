@@ -1,13 +1,15 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-#if [ -d ~/.local/IBM-ASCII-Logo-For-SSH ] && [ -f ~/.local/IBM-ASCII-Logo-For-SSH/ibm.sh ]; then
-#    source ~/.local/IBM-ASCII-Logo-For-SSH/ibm.sh
-#fi
+# Start tmux automatically if not already in a tmux session
+if [ -z "$TMUX" ]; then
+    tmux attach -t default || tmux new -s default
+fi
 
 export LANG=en_US.UTF-8
 export PATH=/usr/bin:$PATH
 export PATH="$PATH:/root/.local/share/gem/ruby/3.0.0/bin"
+export HISTTIMEFORMAT='%F %T '
 
 colorize_history() {
     history | awk '
@@ -28,6 +30,7 @@ filter_python_history() {
 # Set aliases for common commands
 alias ani-cli="sudo ani-cli"
 alias ls='ls --color=auto'
+alias ll='ls -alF --color=auto'
 alias grep='grep --color=auto'
 alias l="ls --color=auto"
 alias la="ls -a --color=auto"
@@ -85,4 +88,10 @@ else
     fi
 fi
 unset __conda_setup
-# <<< conda initialize <<<
+
+# Shows an IBM logo when opening a terminal
+
+#if [ -d ~/.local/IBM-ASCII-Logo-For-SSH ] && [ -f ~/.local/IBM-ASCII-Logo-For-SSH/ibm.sh ]; then
+#    source ~/.local/IBM-ASCII-Logo-For-SSH/ibm.sh
+#fi
+
