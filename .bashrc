@@ -1,3 +1,11 @@
+
+# ██       ██████  ██   ██ ███    ███  █████  ███    ██ 
+# ██      ██    ██ ██  ██  ████  ████ ██   ██ ████   ██ 
+# ██      ██    ██ █████   ██ ████ ██ ███████ ██ ██  ██ 
+# ██      ██    ██ ██  ██  ██  ██  ██ ██   ██ ██  ██ ██ 
+# ███████  ██████  ██   ██ ██      ██ ██   ██ ██   ████ 
+                                                      
+                                                      
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -51,6 +59,13 @@ alias gfa="git fetch --all"
 alias tiga="tig --all"
 alias h='colorize_history'
 alias hp='filter_python_history'
+alias n="nano"
+alias p="python"
+alias jl="jupyter-lab"
+alias proj="cd ~/projects"
+alias simplon = "cd ~/simplon"
+alias briefs = "cd ~/simplon/00.briefs"
+alias q="exit"
 
 #mongoDb
 
