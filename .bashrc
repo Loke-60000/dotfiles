@@ -63,8 +63,8 @@ alias n="nano"
 alias p="python"
 alias jl="jupyter-lab"
 alias proj="cd ~/projects"
-alias simplon = "cd ~/simplon"
-alias briefs = "cd ~/simplon/00.briefs"
+alias simplon="cd ~/simplon"
+alias briefs="cd~/simplon/00.briefs"
 alias q="exit"
 
 #mongoDb
