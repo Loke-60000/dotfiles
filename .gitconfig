@@ -1,0 +1,5 @@
+[user]
+	email = ramdani.lokman@gmail.com
+	name = Lokman
+[core]
+	editor = code --wait
