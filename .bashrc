@@ -49,11 +49,18 @@ colorize_history() {
     '
 }
 
+gitsize() {
+  local repoPath=$(echo $1 | sed -E 's/https:\/\/github\.com\/([^\/]+\/[^\/]+).*/\1/')
+  local repoUrl="https://api.github.com/repos/$repoPath"
+  local size=$(curl -s "$repoUrl" | jq '.size')
+  echo "${size}KB"
+}
+
 filter_python_history() {
     history | grep --color=auto -E 'python|pip|conda|jupyter'
 }
 
-docker-run-port() {
+docker_run_port() {
     docker run -p 8080:8000 "$1"
 }
 
@@ -115,6 +122,9 @@ alias conda-new='function _conda_new(){ conda create --name $1 python=$2; };_con
 alias conda-remove='function _conda_remove(){ conda remove --name $1 --all; };_conda_remove'
 alias conda-create="conda create -n myenv python=\$(conda search python --json | grep '\"version\":' | tail -1 | awk '{print \$2}' | tr -d '\"' | tr -d ',')"
 alias conda-jupyter="conda install -c conda-forge jupyterlab"
+alias ca="conda activate"
+alias cdeactivate="conda deactivate"
+alias ci="conda install"
 
 #Docker
 
@@ -124,10 +134,19 @@ alias docker-build='docker build -t my-python-script .'
 alias docker-run='docker run -it my-python-script'
 alias docker-run-port='docker run -p 8080:8000 my-python-script'
 
+#PostgrelSQL
+
+alias pgstart='sudo systemctl start postgresql'
+alias pgstop='sudo systemctl stop postgresql'
+
+
 #Apps
 alias ani-cli="sudo ani-cli"
 alias yt="ytfzf -t"
 alias rr="/home/lokman/.local/roll.sh"
+alias weather="curl wttr.in"
+alias coin="curl rate.sx"
+alias meaning='function _meaning_input() { read -p "Enter a word: " word; curl "dict://dict.org/d:$word"; }; _meaning_input'
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
