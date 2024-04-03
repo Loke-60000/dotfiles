@@ -56,10 +56,12 @@ colorize_history() {
 }
 
 gitsize() {
-  local repoPath=$(echo $1 | sed -E 's/https:\/\/github\.com\/([^\/]+\/[^\/]+).*/\1/')
-  local repoUrl="https://api.github.com/repos/$repoPath"
-  local size=$(curl -s "$repoUrl" | jq '.size')
-  echo "${size}KB"
+  echo "Calculating repository size, please wait..."
+  tempDir=$(mktemp -d)
+  git clone --quiet "$1" "$tempDir" > /dev/null 2>&1
+  repoSize=$(du -sh "$tempDir" | cut -f1)
+  rm -rf "$tempDir"
+  echo "Repository size: $repoSize"
 }
 
 filter_python_history() {
