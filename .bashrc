@@ -4,38 +4,44 @@
 # ██      ██    ██ ██  ██  ██  ██  ██ ██   ██ ██  ██ ██    ██   ██ ██   ██      ██ ██   ██ ██   ██ ██
 # ███████  ██████  ██   ██ ██      ██ ██   ██ ██   ████ ██ ██████  ██   ██ ███████ ██   ██ ██   ██  ██████
 
-# If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-
-#  custom colors for the prompt
-WHITE="\[\e[97m\]"
-RED="\[\e[91m\]"
-GREEN="\[\e[92m\]"
-BLUE="\[\e[94m\]"
-RESET="\[\e[0m\]"
-
-# Prompt with colors and the IBM logo
-PS1="${WHITE}\u${RESET}@${RED}I${GREEN}B${BLUE}M${RESET}-${WHITE}T480${RESET}:${BLUE}\w${RESET}\\$ "
-
-# Check if inside a TMUX session
-if [ -z "$TMUX" ]; then
-    # Generate a unique session name based on date and time to avoid conflicts
-    SESSION_NAME="session_$(date +%Y%m%d%H%M%S)"
-    # Create and attach to a new session with the unique name
-    tmux new-session -s "$SESSION_NAME" -d
-    # Attach to the newly created session
-    tmux attach-session -t "$SESSION_NAME"
-    # When the tmux attach command exits (meaning the session is closed), kill the session
-    # This ensures the session is not left hanging when the terminal window is closed
-    tmux kill-session -t "$SESSION_NAME"
-fi
 
 export LANG=en_US.UTF-8
 export PATH=/usr/bin:$PATH
 export PATH="$PATH:/root/.local/share/gem/ruby/3.0.0/bin"
 export HISTTIMEFORMAT='%F %T '
 
-# Function for aliases
+# # Check if we are not already in a tmux session
+# if [ -z "$TMUX" ]; then
+#     # Create a unique session name based on the current date and time
+#     SESSION_NAME="session_$(date +%Y%m%d%H%M%S)"
+    
+#     # Create a new detached tmux session with the unique name
+#     tmux new-session -s "$SESSION_NAME" -d
+    
+#     # Attach to the newly created session
+#     tmux attach-session -t "$SESSION_NAME"
+    
+#     # Ensure .tmux.conf is sourced after attaching to a session
+#     # This line is not needed for sourcing .tmux.conf but ensures your environment is as expected
+# fi
+
+WHITE="\[\033[97m\]"
+RED="\[\033[91m\]"
+GREEN="\[\033[92m\]"
+BLUE="\[\033[94m\]"
+YELLOW="\[\033[93m\]"
+CYAN="\[\033[96m\]"
+RESET="\[\033[0m\]"
+
+parse_git_branch() {
+  branch=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+  if [ -n "$branch" ]; then
+    echo " -[$branch]-"
+  fi
+}
+
+PS1="${YELLOW}\A ${RESET}| ${WHITE}\u${RESET}@${RED}I${GREEN}B${BLUE}M${RESET}-${WHITE}T480${RESET}:${BLUE}\w${CYAN}\$(parse_git_branch)${RESET}\\$ "
 
 colorize_history() {
     history | awk '
@@ -65,7 +71,7 @@ docker_run_port() {
 }
 
 
-# Set aliases for common commands
+# common commands
 alias ls='ls --color=auto'
 alias ll='ls -alF --color=auto'
 alias grep='grep --color=auto'
@@ -81,7 +87,6 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
 # Directories and files
-
 alias proj="cd ~/projects"
 alias simplon="cd ~/simplon"
 alias briefs="cd~/simplon/00.briefs"
@@ -93,15 +98,15 @@ alias bashrc='nano ~/.bashrc'
 
 #Git
 alias ginit="git init"
-alias gc="git clone"
-alias g="git status"
-alias gc="git checkout"
-alias gp="git pull"
+alias gcl="git clone"
+alias gs="git status"
+alias gco="git checkout"
+alias gpull="git pull"
 alias gf="git fetch"
 alias gfa="git fetch --all"
 alias tiga="tig --all"
 alias gcm="git commit -m"
-alias gp="git push"
+alias gpush="git push"
 alias ga="git add"
 
 #Python
@@ -111,13 +116,11 @@ alias hp='filter_python_history'
 alias jl="jupyter-lab"
 
 #mongoDb
-
 alias mongostart="sudo systemctl start mongodb.service"
 alias mongostop="sudo systemctl stop mongodb.service"
 alias mongoshlokman="mongosh "mongodb://localhost:27017/?authSource=admin" --username lokman --password"
 
 #Conda
-
 alias conda-new='function _conda_new(){ conda create --name $1 python=$2; };_conda_new'
 alias conda-remove='function _conda_remove(){ conda remove --name $1 --all; };_conda_remove'
 alias conda-create="conda create -n myenv python=\$(conda search python --json | grep '\"version\":' | tail -1 | awk '{print \$2}' | tr -d '\"' | tr -d ',')"
@@ -127,18 +130,71 @@ alias cdeactivate="conda deactivate"
 alias ci="conda install"
 
 #Docker
-
-alias docker-start='sudo systemctl start docker'
-alias docker-stop='sudo systemctl stop docker'
-alias docker-build='docker build -t my-python-script .'
-alias docker-run='docker run -it my-python-script'
-alias docker-run-port='docker run -p 8080:8000 my-python-script'
+docker-start() {
+    sudo systemctl start docker
+}
+docker-stop() {
+    sudo systemctl stop docker
+}
+docker-build() {
+    docker build -t "$1" .
+}
+docker-run() {
+    docker run -it "$1"
+}
+docker-run-port() {
+    docker run -p "$2":8000 "$1"
+}
 
 #PostgrelSQL
-
 alias pgstart='sudo systemctl start postgresql'
 alias pgstop='sudo systemctl stop postgresql'
 
+#Azure
+alias azurevm='ssh -i /home/lokman/.azure/ssh/lokman-az.pem lokman@4.178.104.84'
+alias azlogin='az login'
+alias azlistvms='az vm list -d -o table'
+alias azstartvm='az vm start --name <your-vm-name> --resource-group <your-resource-group>'
+alias azstopvm='az vm deallocate --name <your-vm-name> --resource-group <your-resource-group>'
+alias azlistcontainers='az storage container list --account-name <storage-account-name> -o table'
+alias azuploadblob='az storage blob upload --file <file-path> --container-name <container-name> --name <blob-name> --account-name <storage-account-name>'
+azurepushdocker() {
+    if [[ $# -ne 3 ]]; then
+        echo "Usage: azurepushdocker <local-image-name:tag> <acr-name> <acr-repo:tag>"
+        return 1
+    fi
+    local LOCAL_IMAGE_NAME=$1
+    local ACR_NAME=$2
+    local ACR_REPO_TAG=$3
+    local ACR_LOGIN_SERVER="${ACR_NAME}.azurecr.io"
+    az acr login --name "${ACR_NAME}"
+    if [[ $? -ne 0 ]]; then
+        echo "Failed to log in to Azure Container Registry: ${ACR_NAME}"
+        return 1
+    fi
+    docker tag "${LOCAL_IMAGE_NAME}" "${ACR_LOGIN_SERVER}/${ACR_REPO_TAG}"
+    docker push "${ACR_LOGIN_SERVER}/${ACR_REPO_TAG}"
+}
+
+# SSL Servers
+alias khadas='ssh salieri@khadas.lokman.fr'
+push2khadas() {
+    if [[ $# -ne 1 ]]; then
+        echo "Usage: push2khadas <path-to-file-or-folder>"
+        return 1
+    fi
+    local ITEM_TO_PUSH=$1
+    local DESTINATION="salieri@khadas.lokman.fr:/home/salieri/Desktop/ssl-sharing"
+    ssh salieri@khadas.lokman.fr "mkdir -p /home/salieri/Desktop/ssl-sharing"
+    scp -r "${ITEM_TO_PUSH}" "${DESTINATION}/"
+
+    if [[ $? -eq 0 ]]; then
+        echo "Successfully pushed ${ITEM_TO_PUSH} to ${DESTINATION}"
+    else
+        echo "Failed to push ${ITEM_TO_PUSH} to ${DESTINATION}"
+        return 1
+    fi
+}
 
 #Apps
 alias ani-cli="sudo ani-cli"
@@ -149,7 +205,6 @@ alias coin="curl rate.sx"
 alias meaning='function _meaning_input() { read -p "Enter a word: " word; curl "dict://dict.org/d:$word"; }; _meaning_input'
 
 # >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/lokman/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
@@ -161,10 +216,3 @@ else
     fi
 fi
 unset __conda_setup
-
-# Shows an IBM logo when opening a terminal
-
-#if [ -d ~/.local/IBM-ASCII-Logo-For-SSH ] && [ -f ~/.local/IBM-ASCII-Logo-For-SSH/ibm.sh ]; then
-#    source ~/.local/IBM-ASCII-Logo-For-SSH/ibm.sh
-#fi
-
