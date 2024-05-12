@@ -180,6 +180,7 @@ azurepushdocker() {
 
 # SSL Servers
 alias khadas='ssh salieri@khadas.lokman.fr'
+alias hostinger='ssh root@89.116.38.101'
 push2khadas() {
     if [[ $# -ne 1 ]]; then
         echo "Usage: push2khadas <path-to-file-or-folder>"
