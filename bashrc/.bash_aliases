@@ -23,18 +23,37 @@ alias mvnew='mkdir -p new_folder && mv * new_folder/'
 alias s='source ~/.bashrc'
 alias bashrc='nano ~/.bashrc'
 
-#Git
-alias ginit="git init"
-alias gcl="git clone"
-alias gs="git status"
-alias gco="git checkout"
-alias gpull="git pull"
-alias gf="git fetch"
-alias gfa="git fetch --all"
-alias tiga="tig --all"
-alias gcm="git commit -m"
-alias gpush="git push"
-alias ga="git add"
+# Git Aliases
+alias ginit="git init"                       # Initialize repository
+alias gcl="git clone"                        # Clone repository
+alias ga="git add"                           # Stage changes
+alias gs="git status"                        # Check status
+alias gco="git checkout"                     # Switch branch
+alias gcm="git commit -m"                    # Commit with message
+alias gpull="git pull"                       # Pull changes
+alias gpush="git push"                       # Push changes
+alias gf="git fetch"                         # Fetch changes
+alias gfa="git fetch --all"                  # Fetch from all remotes
+alias tiga="tig --all"                       # Open Tig for all branches
+
+# Enhanced Aliases
+alias gap="git add -p"                       # Add interactively
+alias gcb="git checkout -b"                  # Create new branch
+alias gamend="git commit --amend"            # Amend last commit
+alias gplr="git pull --rebase"               # Pull with rebase
+alias gstash="git stash"                     # Stash changes
+alias gpop="git stash pop"                   # Apply stash
+
+# Cancel Commit Aliases
+alias gundo-soft="git reset --soft HEAD~"    # Undo last commit, keep changes staged
+alias gundo-mixed="git reset --mixed HEAD~"  # Undo last commit, unstage changes
+alias gundo-hard="git reset --hard HEAD~"    # Undo last commit, discard changes
+alias gundo-push="git reset --hard HEAD~ && git push origin +branch-name"  # Undo last commit, force push
+
+# Git Log Aliases
+alias gl="git log --oneline --graph --all"   # Concise log with graph
+alias gls="git log --stat"                   # Log with stats
+alias glg="git log --graph --decorate --all --oneline"  # Detailed log graph
 
 #Python
 alias p="python"
