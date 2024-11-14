@@ -30,24 +30,11 @@ filter_python_history() {
     history | grep --color=auto -E 'python|pip|conda|jupyter'
 }
 
-docker_run_port() {
-    docker run -p 8080:8000 "$1"
-}
-
 docker-start() {
     sudo systemctl start docker
 }
 docker-stop() {
     sudo systemctl stop docker
-}
-docker-build() {
-    docker build -t "$1" .
-}
-docker-run() {
-    docker run -it "$1"
-}
-docker-run-port() {
-    docker run -p "$2":8000 "$1"
 }
 
 gen-ssh-cli() {
