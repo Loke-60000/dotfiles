@@ -1,0 +1,18 @@
+# Ghostty config — Evangelion
+theme = Evangelion
+
+# Font (Consolas not available, Hack is closest installed match)
+font-family = Hack
+
+# Cursor
+cursor-style = bar
+cursor-style-blink = true
+
+# Acrylic-like transparency
+background-opacity = 0.9
+
+# Shaders (TFT scanline — retro display effect)
+custom-shader = shaders/tft.glsl
+
+# ctrl+v pastes, ctrl+c stays SIGINT (ctrl+shift+c copies)
+keybind = ctrl+v=paste_from_clipboard

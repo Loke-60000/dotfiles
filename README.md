@@ -11,6 +11,16 @@ This repository organizes `.bashrc` configurations and other environment-specifi
   - `.bash_env`: Environment variables.
   - `.bash_functions`: Custom functions.
 
+- **zshrc/**: `.zshrc` — zsh setup (powerlevel10k, plugins, Evangelion palette).
+
+- **tmux/**: `.tmux.conf` — tmux setup, colors matched to ghostty/zsh.
+  Session persistence needs two clones on a new machine:
+  ```bash
+  mkdir -p ~/.tmux/plugins && cd ~/.tmux/plugins
+  git clone https://github.com/tmux-plugins/tmux-resurrect.git
+  git clone https://github.com/tmux-plugins/tmux-continuum.git
+  ```
+
 - **laptop_configurations/**: Configurations for laptop setup.
   - **windows_Terminal/config.json**: Windows Terminal settings.
   - **arch-linux-setup-japanese-keyboard.sh**: Script for Japanese keyboard setup on Arch Linux.
@@ -19,22 +29,16 @@ This repository organizes `.bashrc` configurations and other environment-specifi
 
 ## Setup
 
-1. **Clone** this repository.
-   ```bash
-   git clone git@github.com:Loke-60000/dotfiles.git ~/dotfiles
-   ```
+```bash
+git clone git@github.com:Loke-60000/dotfiles.git ~/dotfiles
+~/dotfiles/install.sh
+```
 
-2. **Take what you need:** Copy the necessary configuration files to your home directory or appropriate locations. For example:
-    ```bash
-    cp ~/dotfiles/bashrc/.bashrc ~/.bashrc
-    cp ~/dotfiles/bashrc/.bash_aliases ~/.bash_aliases
-    cp ~/dotfiles/bashrc/.bash_env ~/.bash_env
-    cp ~/dotfiles/bashrc/.bash_functions ~/.bash_functions
-    ```
+Installs packages (pacman or apt), clones the zsh and tmux plugins, and symlinks
+every config back to this repo -- so editing `~/.zshrc` edits the repo. Anything
+already in place is moved to `~/.dotfiles-backup/<timestamp>/` first. Safe to re-run.
 
-3. **Reload** `.bashrc` to apply changes:
-   ```bash
-   source ~/.bashrc
-   ```
+Private things -- tokens, internal hosts, per-machine tweaks -- go in
+`~/.zshrc.local`, which is created for you and never committed.
 
 ---

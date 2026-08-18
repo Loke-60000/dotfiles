@@ -80,7 +80,6 @@ alias pgstart='sudo systemctl start postgresql'
 alias pgstop='sudo systemctl stop postgresql'
 
 #Azure
-alias azurevm='ssh -i /home/lokman/.azure/ssh/lokman-az.pem lokman@4.178.104.84'
 alias azlogin='az login'
 alias azlistvms='az vm list -d -o table'
 alias azstartvm='az vm start --name <your-vm-name> --resource-group <your-resource-group>'
